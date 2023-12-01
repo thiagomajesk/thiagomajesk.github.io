@@ -1,0 +1,28 @@
+---
+import type { CollectionEntry } from 'astro:content'
+import FormattedDate from '@components/FormattedDate.astro'
+
+interface Props {
+	posts: Array<CollectionEntry<'posts'>>
+}
+
+const { posts } = Astro.props
+---
+
+<ul class="mt-4 divide-y divide-gray-800">
+	{
+		posts.map((post) => (
+			<li class="flex flex-col-reverse items-start justify-between py-2 font-semibold sm:flex-row sm:items-center">
+				<a
+					href={`/posts/${post.slug}/`}
+					class="text line-clamp-1 text-gray-400 hover:underline sm:truncate">
+					{post.data.title}
+				</a>
+				<FormattedDate
+					date={post.data.date}
+					class="min-w-fit self-start text-sm text-gray-600 sm:ml-2 sm:self-end"
+				/>
+			</li>
+		))
+	}
+</ul>

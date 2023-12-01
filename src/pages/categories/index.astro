@@ -1,0 +1,29 @@
+---
+import { getCategoriesWithPosts } from '../../posts'
+import RootLayout from '@layouts/RootLayout.astro'
+import Main from '@components/Main.astro'
+import PostList from '@components/PostList.astro'
+
+const categoriesWithPosts = Object.entries(await getCategoriesWithPosts())
+---
+
+<RootLayout>
+	<Main>
+		<h1 class="text-center text-3xl font-bold text-gray-200">Categories</h1>
+		<ul class="mt-4 space-y-2 divide-y divide-gray-800">
+			{
+				categoriesWithPosts.map(([category, posts]) => (
+					<li class="flex flex-col gap-2 py-2 font-semibold">
+						<a
+							href={`/categories/${category}`}
+							class="text-xl font-bold capitalize text-gray-200 hover:underline"
+						>
+							{category}
+						</a>
+						<PostList posts={posts} />
+					</li>
+				))
+			}
+		</ul>
+	</Main>
+</RootLayout>

@@ -1,0 +1,27 @@
+---
+import type { CollectionEntry } from 'astro:content'
+import FormattedDate from './FormattedDate.astro'
+import PostExcerpt from '@igor.dvlpr/astro-post-excerpt'
+
+interface Props {
+	posts: Array<CollectionEntry<'posts'>>
+}
+
+const { posts } = Astro.props
+---
+
+<ul class="mt-4 space-y-2 divide-y divide-gray-800">
+	{
+		posts.map((post) => (
+			<li class="flex flex-col py-2 font-semibold">
+				<FormattedDate date={post.data.date} class="text-sm text-gray-600" />
+				<a href={`/posts/${post.slug}/`} class="mt-1 text-lg text-gray-400 hover:underline">
+					{post.data.title}
+				</a>
+				<p class="mt-2 text-sm font-normal text-gray-500">
+					<PostExcerpt post={post} words={50} />
+				</p>
+			</li>
+		))
+	}
+</ul>

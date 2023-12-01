@@ -1,0 +1,38 @@
+---
+import RootLayout from '../layouts/RootLayout.astro'
+import { getLatestPosts } from '../posts'
+import { SITE_TITLE } from '../consts'
+import Main from '../components/Main.astro'
+import PostList from '../components/PostList.astro'
+
+const posts = await getLatestPosts()
+---
+
+<RootLayout>
+	<header class="my-24">
+		<div class="flex flex-col items-center">
+			<img
+				src="/avatar.jpg"
+				alt="Author avatar"
+				class="h-24 w-24 rounded-full transition-all duration-1000 ease-out hover:animate-wiggle hover:grayscale"
+			/>
+			<h1
+				class="mt-8 flex flex-col items-center gap-2 text-center text-2xl font-bold text-gray-200 sm:flex-row">
+				<img src="/beholder.svg" alt="The Beholder" class="h-6 w-6" />
+				{SITE_TITLE}
+			</h1>
+			<p class="mt-4 max-w-lg text-center text-sm text-gray-400">
+				Hello! I'm Thiago and this is a place where I share some of my discoveries with the world.
+				The main purpose of this page is to serve as a storage to index my own findings and useful
+				things I learn and usually forget after a while - like a "memory vault" if you will. Feel
+				free to snoop around.
+			</p>
+		</div>
+	</header>
+	<Main>
+		<section>
+			<h2 class="text-center text-xl font-bold text-gray-200 sm:text-left">Recent posts</h2>
+			<PostList {posts} />
+		</section>
+	</Main>
+</RootLayout>

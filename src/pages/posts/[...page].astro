@@ -1,0 +1,25 @@
+---
+import type { GetStaticPaths, InferGetStaticPropsType } from 'astro'
+import Main from '../../components/Main.astro'
+import RootLayout from '../../layouts/RootLayout.astro'
+import { getAllPosts } from '../../posts'
+import Pagination from '../../components/Pagination.astro'
+import PostListWithExcerpt from '@components/PostListWithExcerpt.astro'
+import { DEFAULT_PAGE_SIZE } from 'src/consts'
+
+export const getStaticPaths = (async ({ paginate }) => {
+	return paginate(await getAllPosts(), { pageSize: DEFAULT_PAGE_SIZE })
+}) satisfies GetStaticPaths
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>
+
+const { page } = Astro.props as Props
+---
+
+<RootLayout>
+	<Main>
+		<h1 class="text-center text-3xl font-bold text-gray-200">Posts</h1>
+		<PostListWithExcerpt posts={page.data} />
+		<Pagination {page} />
+	</Main>
+</RootLayout>

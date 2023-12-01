@@ -1,0 +1,27 @@
+---
+import { getAllTags } from '../../posts'
+import RootLayout from '@layouts/RootLayout.astro'
+import Main from '@components/Main.astro'
+
+const tags = await getAllTags()
+---
+
+<RootLayout>
+	<Main>
+		<h1 class="text-center text-3xl font-bold text-gray-200">Tags</h1>
+		<ul class="mt-4 flex flex-wrap items-center gap-2">
+			{
+				tags.map((tag) => (
+					<li class="flex gap-4 py-2 font-medium">
+						<a
+							href={`/tags/${tag.slug}`}
+							class="hover:underline"
+							style={`font-size:${Math.min(tag.count * 2 + 10, 42)}px`}>
+							{`#${tag.name} (${tag.count})`}
+						</a>
+					</li>
+				))
+			}
+		</ul>
+	</Main>
+</RootLayout>
