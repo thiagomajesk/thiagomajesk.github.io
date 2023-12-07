@@ -18,7 +18,7 @@ const { title, date, category, tags } = post.data
 const { Content } = await post.render()
 ---
 
-<RootLayout title={title}>
+<RootLayout {title}>
 	<Main>
 		<article>
 			<header class="mb-4 border-b border-gray-800 pb-4">
