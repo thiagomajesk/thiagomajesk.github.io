@@ -10,3 +10,7 @@ body {
 		radial-gradient(ellipse at center right, rgba(112, 44, 249, 0.5), transparent 50%),
 		radial-gradient(ellipse at center left, rgba(214, 51, 132, 0.5), transparent 50%);
 }
+
+.prose iframe {
+	@apply w-full aspect-video my-4 rounded-lg shadow-xl;
+}
