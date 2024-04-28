@@ -14,10 +14,10 @@ Because of its browser-based nature, most games in this category are simply web 
 
 ## Actors
 
-The first step is to create a way to represent the entities we can interact with during battle, for this purpose we'll be creating an `%Actor{}` struct that is going to hold the necessary information we need. Actors have many properties, but the basic ones are: `hp` and `cp`, the first one defines the actor's Health Points (how long it lasts in combat) and the second one the actor's Charging Points (how fast it can act in battle). Additionaly, the `Actor` module will also contain some helper functions to help us retrieve details about those actors. Here's how some of them work:
+The first step is to create a way to represent the entities we can interact with during battle, for this purpose we'll be creating an `%Actor{}` struct that is going to hold the necessary information we need. Actors have many properties, but the basic ones are: `hp` and `cp`, the first one defines the actor's Health Points (how long it lasts in combat) and the second one the actor's Charging Points (how fast it can act in battle). Additionally, the `Actor` module will also contain some helper functions to help us retrieve details about those actors. Here's how some of them work:
 
 - `Actor.ready?/2`: Whether the actor is ready to act or not. An actor is ready when it has filled it's <abbr title="Charging Points">CP</abbr> bar.
-- `Actor.tired?/1`: Whether or not the actor is completely depleated of its <abbr title="Charging Points">CP</abbr> resource and can't act in the turn.
+- `Actor.tired?/1`: Whether or not the actor is completely depleted of its <abbr title="Charging Points">CP</abbr> resource and can't act in the turn.
 - `Actor.allies?/1`: Whether two actors are in the same party or not. This allows us to properly select targets for actions.
 
 ## Battle state
@@ -375,7 +375,7 @@ Now that we have a good representation for the internal state, we are going to c
 - **Cleanup phase**: Resolve outstanding effects on all actors
 - **Battle end**: When a victory condition is reached
 
-The battler (our GenServer), will need an `id` and a list of `actors` to start the simulation. When the server starts, we define the duration of each turn and a timescale that allow us to customize the relative time each action takes (this value is 1s by default, which makes the game time 1 to 1 with real time):
+The battler (our GenServer), will need an `id` and a list of `actors` to start the simulation. When the server starts, we define the duration of each turn and a timescale for the relative time each action takes (this value is 1s by default, which makes the game time 1 to 1 with real time):
 
 ```elixir
 def start_link(%{id: id, actors: actors}) do
@@ -385,7 +385,7 @@ def start_link(%{id: id, actors: actors}) do
 end
 ```
 
-After the GenServer starts, the `init/1` callback is called and we boostrap the battle by sending the `:battle_started` event. Once the battle has started the server works like a state machine, going through each phase and processing the logic necessary to make everything happen...
+After the GenServer starts, the `init/1` callback is called and we bootstrap the battle by sending the `:battle_started` event. Once the battle has started the server works like a state machine, going through each phase and processing the logic necessary to make everything happen...
 
 ```elixir
 def init(args) do
@@ -425,7 +425,7 @@ end
 
 ## Displaying information
 
-Since we have the simulation state running in the background, we can now capture all available information using a LiveView. We start by finding an existing battle and then we proceed to get the its current state using `Battler.fetch_state(battler_id)`. Finally, when the WebSocket connection has been established, we call `Battler.subscribe()` to receive further state changes:
+Since we have the simulation state running in the background, it's just a matter of capturing the available information using a LiveView. We start by finding an existing battle and then we proceed to get its current state using `Battler.fetch_state(battler_id)`. Finally, when the WebSocket connection has been established, we call `Battler.subscribe()` to receive further state changes:
 
 ```elixir
 def mount(_params, _session, socket) do
@@ -443,7 +443,7 @@ def mount(_params, _session, socket) do
 end
 ```
 
-After the LiveView is subscribed to a battle that is running in the background, it works mostly like a dumb terminal (a view into the simulation into the simulation). This means that anyone connected to that room, can watch in realtime the exact the same thing... Going forward, the only remaining task is to receive the events and update the UI accordintly. In this case, I'm just replacing the LiveView state with the new coming from the server, but this could easily be otpimizsed to respond only to specific events.
+Once the LiveView is subscribed to a battle running in the background, it works mostly like a dumb terminal (a view into the simulation). This means that anyone connected to that room, can watch in real time the exact same thing... Going forward, the only remaining task is to receive the events and update the UI accordingly. In this case, I'm just replacing the LiveView state with the new coming from the server, but this could easily be optimized to respond only to specific events.
 
 ```elixir
 def handle_info({:battler, battle_event, state}, socket) do
