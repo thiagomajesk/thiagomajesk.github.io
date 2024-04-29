@@ -379,7 +379,7 @@ The battler (our GenServer), will need an `id` and a list of `actors` to start t
 
 ```elixir
 def start_link(%{id: id, actors: actors}) do
-  via = {:via, Registry, {RPG.BattlerRegistry, to_string(id)}}
+  via = {:via, Registry, {Battler.BattlerRegistry, to_string(id)}}
   args = %{actors: actors, timescale: 1000, turn_duration: 30000}
   GenServer.start_link(__MODULE__, args, name: via)
 end
