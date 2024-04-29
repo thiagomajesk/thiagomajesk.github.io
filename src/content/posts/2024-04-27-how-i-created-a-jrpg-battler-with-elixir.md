@@ -5,24 +5,24 @@ category: development
 tags: [elixir, genservers, phoenix, liveview]
 ---
 
-Like most developers, I have **lots** of side projects, but there's one in particular that always lures me back in from time to time. This project is an attempt of reviving a genre of games that was very popular in the early 2000's called PBBG (Persistent Browser Based Game). If you are not familiar with this kind of game, a PBBG is essentially a game that satisfies the following two criteria:
+Like most developers, I have **lots** of side projects, but there's one in particular that always lures me back in from time to time. This project is an attempt to revive a genre of games that was very popular in the early 2000s called PBBG (Persistent Browser Based Game). If you are not familiar with this kind of game, a PBBG is essentially a game that satisfies the following two criteria:
 
 - It's browser-based meaning that the game is played over the internet using only a web browser
 - It's persistent meaning that progress in the game is achieved over multiple play sessions
 
-Because of its browser-based nature, most games in this category are simply web apps where you perform a couple of actions on the client, and the server simulates how those actions affect the game world and the other players in it. I while back I thought about getting some inspiration from those games and giving it a new spin, and that's why I want to share how I created a [battle system](https://finalfantasy.fandom.com/wiki/Battle_system) using Elixir and LiveView that emulates the basis for turn-based games like Final Fantasy.
+Because of its browser-based nature, most games in this category are simply web apps where you perform a couple of actions on the client, and the server simulates how those actions affect the game world and the other players in it. A while back I thought about getting some inspiration from those games and giving it a new spin, and that's why I want to share how I created a [battle system](https://finalfantasy.fandom.com/wiki/Battle_system) using Elixir and LiveView that emulates the basis for turn-based games like Final Fantasy.
 
 ## Actors
 
-The first step is to create a way to represent the entities we can interact with during battle, for this purpose we'll be creating an `%Actor{}` struct that is going to hold the necessary information we need. Actors have many properties, but the basic ones are: `hp` and `cp`, the first one defines the actor's Health Points (how long it lasts in combat) and the second one the actor's Charging Points (how fast it can act in battle). Additionally, the `Actor` module will also contain some helper functions to help us retrieve details about those actors. Here's how some of them work:
+The first step is to create a way to represent the entities we can interact with during battle, for this purpose, we'll be creating an `%Actor{}` struct that will hold the necessary information we need. Actors have many properties, but the basic ones are: `hp` and `cp`, the first one defines the actor's Health Points (how long it lasts in combat), and the second one is the actor's Charging Points (how fast it can act in battle). Additionally, the `Actor` module will also contain some helper functions to help us retrieve details about those actors. Here's how some of them work:
 
-- `Actor.ready?/2`: Whether the actor is ready to act or not. An actor is ready when it has filled it's <abbr title="Charging Points">CP</abbr> bar.
+- `Actor.ready?/2`: Whether the actor is ready to act or not. An actor is ready when he has filled it's <abbr title="Charging Points">CP</abbr> bar.
 - `Actor.tired?/1`: Whether or not the actor is completely depleted of its <abbr title="Charging Points">CP</abbr> resource and can't act in the turn.
 - `Actor.allies?/1`: Whether two actors are in the same party or not. This allows us to properly select targets for actions.
 
 ## Battle state
 
-Another thing we need is a data structure to track the state of the battle itself, things like how many turns has passed, who's turn is it, how long does a turn take and so on. We are going to create a another struct for this called `%State{}`.
+Another thing we need is a data structure to track the state of the battle itself, things like how many turns have passed, whose turn is it, how long a turn takes and so on. We are going to create another struct for this called `%State{}`.
 
 ```elixir
 defmodule State do
@@ -366,7 +366,7 @@ end
 
 ## Running the simulation
 
-Now that we have a good representation for the internal state, we are going to create the engine that is going to make everything come to life. For this part we'll be using a [GenServer](https://hexdocs.pm/elixir/GenServer.html). The idea here is to implement a turn-based [CTB](https://finalfantasy.fandom.com/wiki/Charge_Time#Final_Fantasy_Tactics) battle system. Being turn-based, requires us to process things is a very specific order. Here's the general flow of the simulation:
+Now that we have a good representation of the internal state, we are going to create the engine that is going to make everything come to life. For this part, we'll be using a [GenServer](https://hexdocs.pm/elixir/GenServer.html). The idea here is to implement a turn-based [CTB](https://finalfantasy.fandom.com/wiki/Charge_Time#Final_Fantasy_Tactics) battle system. Being turn-based requires us to process things in a very specific order. Here's the general flow of the simulation:
 
 - **Battle start**: When all actors have joined and are ready
 - **Charging phase**: Charges all actors involved in combat
@@ -375,7 +375,7 @@ Now that we have a good representation for the internal state, we are going to c
 - **Cleanup phase**: Resolve outstanding effects on all actors
 - **Battle end**: When a victory condition is reached
 
-The battler (our GenServer), will need an `id` and a list of `actors` to start the simulation. When the server starts, we define the duration of each turn and a timescale for the relative time each action takes (this value is 1s by default, which makes the game time 1 to 1 with real time):
+The battler (our GenServer), will need an `id` and a list of `actors` to start the simulation. When the server starts, we define the duration of each turn and a timescale for the relative time each action takes (this value is 1s by default, which makes the game time 1-1 to real-time):
 
 ```elixir
 def start_link(%{id: id, actors: actors}) do
@@ -443,7 +443,7 @@ def mount(_params, _session, socket) do
 end
 ```
 
-Once the LiveView is subscribed to a battle running in the background, it works mostly like a dumb terminal (a view into the simulation). This means that anyone connected to that room, can watch in real time the exact same thing... Going forward, the only remaining task is to receive the events and update the UI accordingly. In this case, I'm just replacing the LiveView state with the new coming from the server, but this could easily be optimized to respond only to specific events.
+Once the LiveView is subscribed to a battle running in the background, it works mostly like a dumb terminal (a view into the simulation). This means that anyone connected to that room can watch in real-time the exact same thing... Going forward, the only remaining task is to receive the events and update the UI accordingly. In this case, I'm just replacing the LiveView state with the new one coming from the server, but this could easily be optimized to respond only to specific events.
 
 ```elixir
 def handle_info({:battler, battle_event, state}, socket) do
@@ -454,7 +454,7 @@ def handle_info({:battler, battle_event, state}, socket) do
 end
 ```
 
-After you have put all the pieces together, here's what final result looks like:
+After you have put all the pieces together, here's what the final result looks like:
 
 <iframe width="500" height="500" src="/media/battler-demo.mp4" title="Battler Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
