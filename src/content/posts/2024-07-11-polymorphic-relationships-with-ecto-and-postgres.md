@@ -19,7 +19,7 @@ Another way of solving the same problem is having one additional table per relat
 
 # Hold up! There's another way...
 
-What if we use concepts from composition? We can solve this by having a lookup table that connects the shared behavior with different types of entities:
+What if we use concepts from composition? We can solve this by having a lookup table that connects the shared behavior with different types of entities, this modeling strategy is called an **Exclusive Arc**:
 
 ```elixir
 def change do
