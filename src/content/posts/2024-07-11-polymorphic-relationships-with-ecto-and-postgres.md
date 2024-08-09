@@ -67,5 +67,4 @@ In conclusion, this strategy allows us to leverage database constraints in a ver
 **References:**
 
 - [Hashrocket. (n.d.). Modeling Polymorphic Associations in a Relational Database](https://hashrocket.com/blog/posts/modeling-polymorphic-associations-in-a-relational-database)
-
 - [Scheufler, B. (2022, May 22). Modeling Polymorphic Relations in PostgreSQL](https://brunoscheufler.com/blog/2022-05-22-modeling-polymorphic-relations-in-postgres)
