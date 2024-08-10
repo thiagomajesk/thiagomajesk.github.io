@@ -1,0 +1,11 @@
+{% extends "index.html" %}
+{% block content %}
+<section>
+    <header class="mb-8">
+        <h1 class="flex items-center justify-center text-3xl gap-1 font-bold text-white">
+            <span class="iconify tabler--label-filled text-green-500"></span>{{term.name}}
+        </h1>
+    </header>
+    {{ post_macros::simple_list(posts=term.pages) }}
+</section>
+{% endblock content %}

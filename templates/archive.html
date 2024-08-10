@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<section>
+    <header class="mb-8">
+        <h1 class="text-center text-3xl font-bold text-white">Archive</h1>
+    </header>
+    <div class="ml-12">
+        {% set post_section = get_section(path="posts/_index.md") %}
+        {{ post_macros::simple_list(posts=post_section.pages) }}
+    </div>
+</section>
+{% endblock content %}

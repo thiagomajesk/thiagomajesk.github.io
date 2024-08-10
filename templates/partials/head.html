@@ -1,0 +1,31 @@
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="robots" content="index, follow" />
+<link rel="icon" type="image/svg+xml" href="{{ get_url(path='favicon.svg') }}">
+
+{% if page.title %}
+<title>{{ page.title }}</title>
+{% else %}
+<title>{{ config.extra.title }}</title>
+{% endif %}
+
+{% if page.keywords %}
+<meta name="keywords" content="{{ page.keywords | join(sep=', ') }}">
+{% else %}
+<meta name="keywords" content="{{ config.extra.keywords | join(sep=', ') }}">
+{% endif %}
+
+{% if page.author %}
+<meta name="author" content="{{ page.author }}">
+{% elif config.author %}
+<meta name="author" content="{{ config.author }}">
+{% endif %}
+
+{% if current_url %}
+<link rel="canonical" href="{{ current_url }}">
+{% endif %}
+
+<link rel="alternate" type="application/rss+xml" title="RSS" href="{{ get_url(path='rss.xml', trailing_slash=false) }}">
+
+<link rel="stylesheet" href="{{ get_url(path='css/main.css') | safe }}" />

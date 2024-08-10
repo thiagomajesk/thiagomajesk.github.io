@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<header class="my-24 flex flex-col items-center gap-4">
+    <img src="https://avatars.githubusercontent.com/u/13930952" alt="Author avatar"
+        class="h-32 w-32 rounded-full transition-all duration-1000 ease-out hover:animate-wiggle hover:grayscale" />
+    <h1 class="flex flex-col items-center gap-2 text-center text-4xl font-bold text-white sm:flex-row">
+        {{ config.extra.title }}
+    </h1>
+    <p class="text-gray-400 text-center max-w-2xl">
+        Hello! I'm Thiago, and this is the place where I share some of my discoveries with the world. The main
+        purpose of this page is to serve as a storage where I can index my thoughts and useful information I forget
+        after a while. Feel free to snoop around :)
+    </p>
+    <div class="flex items-centere gap-2">
+        <a href="https://github.com/thiagomajesk" target="_blank" class="hover:text-orange-500">
+            <span class="iconify text-2xl tabler--brand-github"></span>
+        </a>
+        <a href="https://www.linkedin.com/in/thiago-majesk-goulart" target="_blank" class="hover:text-orange-500">
+            <span class="iconify text-2xl tabler--brand-linkedin"></span>
+        </a>
+        <a href="{{ get_url(path='rss.xml', trailing_slash=false) }}" target="_blank" class="hover:text-orange-500">
+            <span class="iconify text-2xl tabler--rss"></span>
+        </a>
+    </div>
+</header>
+<section class="mt-8">
+    <h1 class="text-3xl font-semibold text-center text-gray-100 mb-4">
+        Recent posts
+    </h1>
+    {% for page in paginator.pages %}
+    {{ post_macros::article(post=page) }}
+    {% endfor %}
+    {% if paginator %}
+    <footer class="flex items-center mt-8">
+        <nav class="flex justify-center items-center w-full gap-2">
+            {% if paginator.previous %}
+            <a class="flex items-center gap-1 bg-gray-800 hover:bg-gray-700 border border-gray-700 text-white text-sm shadow px-4 py-2 rounded-lg"
+                href="{{ paginator.previous | safe }}">
+                <span class="iconify tabler--chevrons-left"></span> Prev
+            </a>
+            {% endif %}
+            {% if paginator.next %}
+            <a class="flex items-center gap-1 bg-gray-800 hover:bg-gray-700 border border-gray-700 text-white text-sm shadow px-4 py-2 rounded-lg"
+                href="{{ paginator.next | safe }}">
+                Next <span class="iconify tabler--chevrons-right"></span>
+            </a>
+            {% endif %}
+        </nav>
+    </footer>
+    {% endif %}
+</section>
+{% endblock content %}

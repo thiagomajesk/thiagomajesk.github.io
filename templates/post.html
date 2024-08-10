@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<article>
+  <header class="flex flex-col mb-4">
+    <h1 class="text-4xl mb-2 text-white font-semibold">
+      {{ page.title }}
+    </h1>
+    <div class="flex gap-4 items-center text-gray-200">
+      <div class="flex items-center gap-2">
+        <span class="iconify tabler--calendar"></span>
+        <time datetime="{{ page.date }}">
+          {{ page.date | date(format='%B %d, %Y') }}
+        </time>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="iconify tabler--clock"></span>
+        <span>{{ page.reading_time }} min read</span>
+      </div>
+    </div>
+  </header>
+  <div class="rounded-xl border border-gray-800 bg-gray-900 p-4 shadow-lg">
+    <div class="text-sm border-b border-gray-800 pt-2 pb-6 flex items-center justify-between mb-4">
+      {{ post_macros::tag_list(tags=page.taxonomies.tags) }}
+      {{ post_macros::category_list(categories=page.taxonomies.categories) }}
+    </div>
+    <div class="max-w-none prose prose-invert prose-gray 
+      prose-headings:font-medium prose-headings:text-gray-100 
+      prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl prose-h4:text-lg 
+    prose-a:text-gray-400 
+      prose-blockquote:rounded prose-blockquote:shadow-xl prose-blockquote:border-l-4 prose-blockquote:border-blue-900 
+      prose-blockquote:bg-gray-800 prose-blockquote:px-4 prose-blockquote:py-1 prose-blockquote:font-normal prose-blockquote:text-blue-300  
+      prose-pre:rounded-xl prose-pre:border prose-pre:max-h-[500px] prose-pre:border-gray-800 
+      prose-inline-code:rounded prose-inline-code:bg-gray-800 prose-inline-code:border prose-inline-code:border-gray-700 
+      prose-inline-code:no-underline prose-inline-code:px-1 prose-inline-code:py-0.5 prose-inline-code:font-normal prose-inline-code:text-blue-300
+      prose-inline-code:before:content-none prose-inline-code:after:content-none">
+      {{ page.content | safe }}
+    </div>
+  </div>
+</article>
+{% endblock content %}

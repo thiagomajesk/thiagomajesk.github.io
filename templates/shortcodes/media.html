@@ -1,0 +1,19 @@
+{%- if type == "image" %}
+<div class="my-2 overflow-hidden">
+    <img class="w-full aspect-video rounded-lg" src="{{ get_url(path='media/' ~ file) }}" alt="{{ alt }}">
+</div>
+{%- endif -%}
+
+{%- if type == "video" %}
+<div class="my-2 overflow-hidden">
+    <video class="w-full object-cover aspect-video rounded-lg" src="{{ get_url(path='media/' ~ file) }}" alt="{{ alt }}"
+        controls></video>
+</div>
+{%- endif -%}
+
+{%- if type == "audio" %}
+<div class="my-2 overflow-hidden">
+    <audio class="w-full aspect-video rounded-lg" src="{{ get_url(path='media/' ~ file) }}" alt="{{ alt }}"
+        controls></audio>
+</div>
+{%- endif -%}

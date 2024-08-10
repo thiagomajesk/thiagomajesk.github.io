@@ -1,0 +1,53 @@
+name: Deploy Zola to GitHub Pages
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Zola
+        uses: taiki-e/install-action@v2
+        with: { tool: zola@0.19.1 }
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install NPM packages
+        uses: actions/setup-node@v4
+        with: { node-version: 21, cache: "npm" }
+
+      - name: Build site
+        run: |
+          npm install
+          npm run build:css
+          zola build
+          touch public/.nojekyll
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./public
+
+  publish:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
