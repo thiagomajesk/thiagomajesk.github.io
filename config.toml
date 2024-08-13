@@ -1,4 +1,13 @@
 base_url = "https://thiagomajesk.github.io"
+
+author = "Thiago Majesk Goulart"
+
+title = "Thiago's Guide To Everything"
+
+description = """
+Hello! I'm Thiago, and this is the place where I share some of my discoveries with the world. The main purpose of this page is to serve as a storage where I can index my thoughts and useful information I forget after a while. Feel free to snoop around :)
+"""
+
 compile_sass = false
 build_search_index = false
 generate_feeds = true
@@ -14,7 +23,12 @@ taxonomies = [
 # Theme can be customised by setting the `highlight_theme` variable to a theme supported by Zola
 highlight_code = true
 
-
 [extra]
-title = "Thiago's Guide To Everything"
-keywords = ["zola", "blog"]
+image = "img/beholder.svg"
+keywords = [
+    "programing",
+    "development",
+    "career",
+    "elixir",
+    "software enginnering",
+]
