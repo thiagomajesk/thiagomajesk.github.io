@@ -5,8 +5,8 @@
     "dev:js": "esbuild ./js/main.js --bundle --outfile=./static/js/main.js --watch",
     "dev:css": "npx tailwindcss -i ./css/main.css -o ./static/css/main.css --watch",
     "dev:zola": "zola serve",
-    "build:css": "npx tailwindcss -i ./css/main.css -o ./static/css/main.css --minify",
     "build:js": "esbuild ./js/main.js --bundle --outfile=./static/js/main.js --minify",
+    "build:css": "npx tailwindcss -i ./css/main.css -o ./static/css/main.css --minify",
     "build:zola": "zola build"
   },
   "devDependencies": {
