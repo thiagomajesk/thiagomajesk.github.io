@@ -1,7 +1,7 @@
 const colors = require("./colors.js");
 const plugin = require("tailwindcss/plugin");
 const defaultTheme = require("tailwindcss/defaultTheme");
-const { addIconSelectors } = require('@iconify/tailwind');
+const { addIconSelectors } = require("@iconify/tailwind");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {

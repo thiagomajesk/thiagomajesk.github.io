@@ -1,14 +1,14 @@
 {% import "macros/post.html" as post_macros %}
 
 <!DOCTYPE html>
-<html lang="en-US">
+<html lang="en-US" class="[scrollbar-gutter:stable]">
 
 {% include "partials/head.html" %}
 
 <body class="flex flex-col min-h-screen min-w-[350px] bg-gray-950 px-1 text-gray-200 antialiased sm:px-4 md:px-0">
   {% block main %}
   {% include "partials/navbar.html" %}
-  <main class="container mx-auto max-w-5xl px-3 my-8">
+  <main id="root-container" class="container mx-auto max-w-5xl px-3 my-8">
     {% block content %}
     {% endblock %}
   </main>

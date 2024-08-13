@@ -32,8 +32,7 @@ jobs:
       - name: Build site
         run: |
           npm install
-          npm run build:css
-          zola build
+          npm run build
           touch public/.nojekyll
 
       - name: Upload artifact

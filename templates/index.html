@@ -3,7 +3,7 @@
 {% block content %}
 <header class="my-24 flex flex-col items-center gap-4">
     <img src="https://avatars.githubusercontent.com/u/13930952" alt="Author avatar"
-        class="h-32 w-32 rounded-full transition-all duration-1000 ease-out hover:animate-wiggle hover:grayscale" />
+        class="h-32 w-32 rounded-full transition-all duration-1000 ease-out hover:grayscale" />
     <h1 class="flex flex-col items-center gap-2 text-center text-4xl font-bold text-white sm:flex-row">
         {{ config.title }}
     </h1>
@@ -22,7 +22,7 @@
         </a>
     </div>
 </header>
-<section class="mt-8">
+<section id="recent-posts-container" class="mt-8">
     <h1 class="text-3xl font-semibold text-center text-gray-100 mb-4">
         Recent posts
     </h1>
@@ -33,13 +33,15 @@
     <footer class="flex items-center mt-8">
         <nav class="flex justify-center items-center w-full gap-2">
             {% if paginator.previous %}
-            <a class="flex items-center gap-1 bg-gray-800 hover:bg-gray-700 border border-gray-700 text-white text-sm shadow px-4 py-2 rounded-lg"
+            <a up-target="#recent-posts-container"
+                class="flex items-center gap-1 bg-gray-800 hover:bg-gray-700 border border-gray-700 text-white text-sm shadow px-4 py-2 rounded-lg"
                 href="{{ paginator.previous | safe }}">
                 <span class="iconify tabler--chevrons-left"></span> Prev
             </a>
             {% endif %}
             {% if paginator.next %}
-            <a class="flex items-center gap-1 bg-gray-800 hover:bg-gray-700 border border-gray-700 text-white text-sm shadow px-4 py-2 rounded-lg"
+            <a up-target="#recent-posts-container"
+                class="flex items-center gap-1 bg-gray-800 hover:bg-gray-700 border border-gray-700 text-white text-sm shadow px-4 py-2 rounded-lg"
                 href="{{ paginator.next | safe }}">
                 Next <span class="iconify tabler--chevrons-right"></span>
             </a>

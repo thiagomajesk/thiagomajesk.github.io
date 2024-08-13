@@ -7,7 +7,7 @@
     <ul class="mt-4 flex flex-wrap items-center gap-2">
         {% for category in terms | sort(attribute="pages") | reverse %}
         <li class="flex gap-4">
-            <a href="{{ category.permalink }}"
+            <a up-target="#root-container" up-transition="move-left" href="{{ category.permalink }}"
                 class="flex items-center gap-1 bg-gray-800 hover:bg-gray-700 rounded-lg text-gray-100 px-2 py-1 border border-gray-700 shadow">
                 <span class="iconify text-xl tabler--label-filled text-green-500"></span>
                 {{ category.name }}<sup class="ml-2">{{ category.pages | length }}</sup>

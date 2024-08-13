@@ -1,7 +1,8 @@
 {% macro category_list(categories) %}
 <div class="flex flex-wrap items-center gap-2">
     {% for category in categories %}
-    <a href="{{ get_taxonomy_url(kind='categories', name=category) }}"
+    <a up-target="#root-container" up-transition="move-left"
+        href="{{ get_taxonomy_url(kind='categories', name=category) }}"
         class="flex items-center gap-1 bg-gray-800 hover:bg-gray-700 rounded-lg text-gray-100 px-2 py-1 border border-gray-700 shadow">
         <span class="iconify tabler--label-filled text-green-500"></span>{{ category }}
     </a>
@@ -12,7 +13,7 @@
 {% macro tag_list(tags) %}
 <div class="flex flex-wrap items-center gap-2">
     {% for tag in tags %}
-    <a href="{{ get_taxonomy_url(kind='tags', name=tag) }}"
+    <a up-target="#root-container" up-transition="move-left" href="{{ get_taxonomy_url(kind='tags', name=tag) }}"
         class="flex items-center gap-1 bg-gray-800 hover:bg-gray-700 rounded-lg text-gray-100 px-2 py-1 border border-gray-700 shadow">
         <span class="iconify tabler--hash text-green-500"></span>{{ tag }}
     </a>
@@ -24,7 +25,8 @@
 <ul class="ml-4 space-y-2">
     {% for post in posts %}
     <li class="bg-gray-900 rounded-lg p-2">
-        <a href="{{ post.permalink }}" class="hover:underline hover:text-orange-500">
+        <a up-target="#root-container" up-transition="move-left" href="{{ post.permalink }}"
+            class="hover:underline hover:text-orange-500">
             {{ post.title }}
         </a>
         <div class="flex gap-4 items-center text-gray-500 text-sm">
@@ -47,7 +49,7 @@
 {% macro article(post) %}
 <article class="flex flex-col bg-gray-900 border border-gray-800 rounded-xl p-4 shadow mb-8">
     <header class="flex flex-col mb-4">
-        <a href="{{ post.permalink }}"
+        <a up-target="#root-container" up-transition="move-left" href="{{ post.permalink }}"
             class="text-2xl text-gray-100 hover:text-orange-500 font-semibold hover:underline">
             {{ post.title }}
         </a>
@@ -67,7 +69,7 @@
     {% if post.summary %}
     <div class="text-sm font-normal mb-4">
         {{ post.summary | safe }}
-        <a href="{{ post.permalink }}#continue-reading"
+        <a up-target="#root-container" up-transition="move-left" href="{{ post.permalink }}#continue-reading"
             class="flex items-center gap-1 mt-2 text-sm text-cyan-500 hover:underline">
             Read more <span class="iconify tabler--arrow-right"></span>
         </a>

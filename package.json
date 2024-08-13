@@ -1,15 +1,23 @@
 {
   "scripts": {
     "dev": "concurrently npm:dev:*",
+    "build": "concurrently npm:build:* -g",
+    "dev:js": "esbuild ./js/main.js --bundle --outfile=./static/js/main.js --watch",
     "dev:css": "npx tailwindcss -i ./css/main.css -o ./static/css/main.css --watch",
     "dev:zola": "zola serve",
-    "build:css": "npx tailwindcss -i ./css/main.css -o ./static/css/main.css --minify"
+    "build:css": "npx tailwindcss -i ./css/main.css -o ./static/css/main.css --minify",
+    "build:js": "esbuild ./js/main.js --bundle --outfile=./static/js/main.js --minify",
+    "build:zola": "zola build"
   },
   "devDependencies": {
     "@iconify-json/tabler": "^1.1.119",
     "@iconify/tailwind": "^1.1.2",
     "@tailwindcss/typography": "^0.5.14",
     "concurrently": "^8.2.2",
+    "esbuild": "0.23.0",
     "tailwindcss": "^3.4.9"
+  },
+  "dependencies": {
+    "unpoly": "^3.8.0"
   }
 }
