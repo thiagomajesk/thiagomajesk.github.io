@@ -3,3 +3,4 @@ build
 storage
 node_modules
 public
+static/css
