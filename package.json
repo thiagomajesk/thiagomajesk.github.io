@@ -2,7 +2,7 @@
   "scripts": {
     "dev": "concurrently npm:dev:*",
     "assets": "concurrently npm:build:* -g",
-    "dev:js": "esbuild ./js/main.js --bundle --outfile=./static/js/main.js --watch",
+    "dev:js": "esbuild ./js/main.js --bundle --sourcemap --outfile=./static/js/main.js --watch",
     "dev:css": "npx tailwindcss -i ./css/main.css -o ./static/css/main.css --watch",
     "dev:zola": "zola serve",
     "build:js": "esbuild ./js/main.js --bundle --outfile=./static/js/main.js --minify",
@@ -17,6 +17,7 @@
     "tailwindcss": "^3.4.9"
   },
   "dependencies": {
+    "scroll-progress-indicator": "^1.0.1",
     "unpoly": "^3.8.0"
   }
 }
