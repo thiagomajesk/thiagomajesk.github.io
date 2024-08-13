@@ -19,7 +19,7 @@
     </div>
   </header>
   <div class="rounded-xl border border-gray-800 bg-gray-900 p-4 shadow-lg">
-    <div class="text-sm border-b border-gray-800 pt-2 pb-6 flex items-center justify-between mb-4">
+    <div class="text-sm border-b border-gray-800 pt-2 pb-6 flex flex-wrap gap-2 items-center justify-between mb-4">
       {{ post_macros::tag_list(tags=page.taxonomies.tags) }}
       {{ post_macros::category_list(categories=page.taxonomies.categories) }}
     </div>
