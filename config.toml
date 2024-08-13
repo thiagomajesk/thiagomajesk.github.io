@@ -24,7 +24,8 @@ taxonomies = [
 highlight_code = true
 
 [extra]
-image = "img/beholder.svg"
+logo = "img/beholder.png"
+image = "img/opengraph.png"
 keywords = [
     "programing",
     "development",

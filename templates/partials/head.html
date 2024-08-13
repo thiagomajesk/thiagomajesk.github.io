@@ -1,31 +1,99 @@
-<meta charset="utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-<meta name="robots" content="index, follow" />
-<link rel="icon" type="image/svg+xml" href="{{ get_url(path='favicon.svg') }}">
-
 {% if page.title %}
-<title>{{ page.title }}</title>
-{% else %}
-<title>{{ config.extra.title }}</title>
+{% set title = page.title %}
+{% elif section.title %}
+{% set title = section.title %}
+{% elif config.title %}
+{% set title = config.title %}
+{% endif %}
+
+{% if page.authors %}
+{% set author = page.authors[0] %}
+{% elif section.authors[0] %}
+{% set author = section.authors[0] %}
+{% elif config.author %}
+{% set author = config.author %}
+{% endif %}
+
+{% if page.description %}
+{% set description = page.description | truncate(length=150) %}
+{% elif section.description %}
+{% set description = section.description | truncate(length=150) %}
+{% elif page.summary %}
+{% set description = page.summary | markdown(inline=true) %}
+{% elif config.description %}
+{% set description = config.description | truncate(length=150) %}
+{% endif %}
+
+{% if page.extra.image %}
+{% set image = get_url(path=page.extra.image, trailing_slash=false) %}
+{% elif section.extra.image %}
+{% set image = get_url(path=section.extra.image, trailing_slash=false) %}
+{% elif config.extra.image %}
+{% set image = get_url(path=config.extra.image, trailing_slash=false) %}
+{% endif %}
+
+{% if page.permalink %}
+{% set url = page.permalink %}
+{% elif section.permalink %}
+{% set url = section.permalink %}
+{% elif config.base_url %}
+{% set url = config.base_url %}
+{% endif %}
+
+{% if page.permalink %}
+{% set url = page.permalink %}
+{% elif section.permalink %}
+{% set url = section.permalink %}
+{% elif config.base_url %}
+{% set url = config.base_url %}
 {% endif %}
 
 {% if page.keywords %}
-<meta name="keywords" content="{{ page.keywords | join(sep=', ') }}">
-{% else %}
-<meta name="keywords" content="{{ config.extra.keywords | join(sep=', ') }}">
+{% set keywords = page.keywords %}
+{% elif section.keywords %}
+{% set keywords = section.keywords %}
+{% elif page.taxonomies.tags %}
+{% set keywords = page.taxonomies.tags %}
+{% elif config.extra.keywords %}
+{% set keywords = config.extra.keywords %}
 {% endif %}
 
-{% if page.author %}
-<meta name="author" content="{{ page.author }}">
-{% elif config.author %}
-<meta name="author" content="{{ config.author }}">
-{% endif %}
 
-{% if current_url %}
-<link rel="canonical" href="{{ current_url }}">
-{% endif %}
+<head>
+    <title>{{ title }}</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="{{ url }}">
+    <meta name="title" content="{{ title }}">
+    <meta name="description" content="{{ description }}">
+    <meta name="author" content="{{ author }}">
+    <meta name="keywords" content="{{ keywords | join(sep=', ') }}">
 
-<link rel="alternate" type="application/rss+xml" title="RSS" href="{{ get_url(path='rss.xml', trailing_slash=false) }}">
+    <!-- OpenGraph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url }}">
+    <meta property="og:site_name" content="{{ config.title }}">
+    <meta property="og:title" content="{{ title }}">
+    <meta property="og:description" content="{{ description }}">
+    <meta property="og:image" content="{{ image }}">
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="423" />
+    <meta property="og:image:height" content="423" />
+    <meta property="og:logo" content="{{ config.extra.logo }}" />
 
-<link rel="stylesheet" href="{{ get_url(path='css/main.css') | safe }}" />
+    <!-- Twitter Meta Tags -->
+    <meta property="twitter:url" content="{{ url }}">
+    <meta name="twitter:site" content="{{ config.title }}">
+    <meta name="twitter:title" content="{{ title }}">
+    <meta name="twitter:description" content="{{ description }}">
+    <meta name="twitter:creator" content="{{ author }}">
+    <meta name="twitter:image" content="{{ image }}">
+
+    <link rel="icon" type="image/svg+xml" href="{{ get_url(path='favicon.svg') }}">
+
+    <link rel="alternate" type="application/rss+xml" title="RSS"
+        href="{{ get_url(path='rss.xml', trailing_slash=false) }}">
+
+    <link rel="stylesheet" href="{{ get_url(path='css/main.css') | safe }}" />
+</head>
