@@ -10,7 +10,7 @@ Modeling polymorphic associations in a relational database can be tricky because
 
 <!-- more -->
 
-For instance, imagine you are building a product where users can leave comments across different types of content such as articles and videos. One of the most common approaches to solve this problem is using the infamous `type` column and conditionally querying/ joining things, for instance:
+Imagine you are building a product where users can leave comments across different types of content such as articles and videos. One of the most common approaches to solve this problem is using the infamous `type` column and conditionally querying/ joining things, for instance:
 
 ```sql
 select * from comments where comment_type = 'videos' and video_id = '42'
@@ -69,7 +69,9 @@ In conclusion, this strategy allows us to leverage database constraints in a ver
 
 {{ giphy(id="kaBU6pgv0OsPHz2yxy") }}
 
-# References
+---
+
+**References**
 
 - [Hashrocket. (n.d.). Modeling Polymorphic Associations in a Relational Database](https://hashrocket.com/blog/posts/modeling-polymorphic-associations-in-a-relational-database)
 - [Scheufler, B. (2022, May 22). Modeling Polymorphic Relations in PostgreSQL](https://brunoscheufler.com/blog/2022-05-22-modeling-polymorphic-relations-in-postgres)

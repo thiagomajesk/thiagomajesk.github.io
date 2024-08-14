@@ -6,12 +6,11 @@ taxonomies:
   tags: [elixir, postgres, sql]
 ---
 
-Recently I had to deal with a really pesky problem during the development of a client's product related to how unicode strings work. During the development of a new feature, we had the need to summarize some long-form text collected from the database.
-Because this text was migrated over by a third-party company, we had no knowledge of how it was previously stored and handled during the migration.
+Recently I had to deal with a really pesky problem during the development of a client's product related to how unicode strings work. During the development of a new feature, we had the need to summarize some long-form text from the database. Because this text was migrated over by a third-party company, we had no knowledge of how it was previously stored and handled during the migration. The only thing we knew was that the original text could contain HTML markup from a rich text WISYWIG editor.
 
 <!-- more -->
 
-However, we knew that the original text could contain HTML markup from a rich text WISYWIG editor. So this was our first (naive) try:
+This was our first (naive) try at extracting the contents:
 
 ```elixir
 short_description =
@@ -45,7 +44,7 @@ String.length("sintético")
 #=> 9
 ```
 
-Even though they have the same length, notice how the codepoints returned by `String.to_charlist/1` are different from the previous one:
+Even though they have the same length, notice how the codepoints returned by `String.to_charlist/1` is different from `String.graphemes/1`:
 
 ```elixir
 String.graphemes("sintético")
@@ -58,11 +57,11 @@ String.length("sintético")
 #=> 9
 ```
 
-Using the unicode jargon, we say that those words are cannonically equivalent, even though they don't have the same representation internally. In the previous example, the character `é` is represented with the codepoints `[101, 769]` and the char `é` with the codepoint `[233]`.
+Using the unicode jargon, we say that those words are canonically equivalent, even though they don't have the same representation internally. In the previous example, the character `é` is represented with the codepoints `[101, 769]` and the char `é` with the codepoint `[233]`.
 
-You might still be curious of why the function `String.length/1` returns the same size for both of them, even though they don't use the same codepoints. This happens because the `String` module works with graphemes instead of codepoints. In this particular case, couting graphemes is considered a better solution for UTF-8 strings because a character is counted regardless of it's internal representation. This means that `String.length/1` works more closely to what you expect when you "look" at the string.
+You might still be curious of why the function `String.length/1` returns the same size for both of them, even though they don't use the same codepoints. This happens because the `String` module works with graphemes instead of codepoints. In this particular case, counting graphemes is considered a better solution for UTF-8 strings because a character is counted regardless of it's internal representation. This means that `String.length/1` works more closely to what you expect when you "look" at the string.
 
-When I first learned this, I thought that Elixir was being quirky. However, after carefull examination I see that other languages like Ruby and Javascript are actually conflating the meaning of length and size; which gives you an unexpected result in this scenario (unicode-wise at least).
+When I first learned this, I thought that Elixir was being quirky. However, after careful examination I see that other languages like Ruby and Javascript are actually conflating the meaning of length and size; which gives you an unexpected result in this scenario (unicode-wise at least).
 
 If you need to store the previous string in a database, you might be tempted to use `String.length/1` to check for its size like we did previously. However, this is a very naive approach, because it does not take the actual size of the encoded string into consideration. Gladly, since Elixir strings are just binaries, we have a simple way to check their actual size:
 
@@ -85,7 +84,7 @@ String.to_charlist(String.normalize("sintético", :nfd))
 #=> [115, 105, 110, 116, 101, 769, 116, 105, 99, 111]
 ```
 
-If you want to know more about this, I recommend this excelent article that goes into detail on how unicode normalization works: [https://towardsdatascience.com/what-on-earth-is-unicode-normalization-56c005c55ad](https://towardsdatascience.com/what-on-earth-is-unicode-normalization-56c005c55ad0).
+If you want to know more about this, I recommend this excelent article that goes into detail on how unicode normalization works: [What on Earth is Unicode Normalization?](https://towardsdatascience.com/what-on-earth-is-unicode-normalization-56c005c55ad0).
 
 # Finally, storing some information
 
@@ -104,9 +103,9 @@ Before we close this, I want to make final remarks regarding some Postgres pecul
 
 > There is no performance difference among these three types, apart from increased storage space when using the blank-padded type, and a few extra CPU cycles to check the length when storing into a length-constrained column. While character(n) has performance advantages in some other database systems, there is no such advantage in PostgreSQL; in fact character(n) is usually the slowest of the three because of its additional storage costs. In most situations text or character varying should be used instead.
 
-If like me, you didn't know about this, you might perhaps make good use of this wiki page: [https://wiki.postgresql.org/wiki/Don%27t_Do_This](https://wiki.postgresql.org/wiki/Don%27t_Do_This#Don.27t_use_char.28n.29#Text_storage).
+If like me, you didn't know about this, you might perhaps make good use of this wiki page: [Don't Do This - PostgreSQL](https://wiki.postgresql.org/wiki/Don%27t_Do_This#Don.27t_use_char.28n.29#Text_storage).
 
-BTW, the case for Ecto not doing this by default, seems to be compatibility with other databases. So, if you don't have the need to store exactly 'N' amount of characters like we did, I definetelly recommend always using the `text` type and keep the original information intact.
+BTW, the case for Ecto not doing this by default, seems to be compatibility with other databases. So, if you don't have the need to store exactly 'N' amount of characters like we did, I definitely recommend always using the `text` type and keep the original information intact.
 
 I also want to link two very good videos on the unicode topic that will make things a lot more clear if you are dealing with UTF-8 strings:
 

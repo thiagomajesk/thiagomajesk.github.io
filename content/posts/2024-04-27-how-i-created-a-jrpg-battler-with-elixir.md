@@ -6,18 +6,16 @@ taxonomies:
   tags: [elixir, genservers, phoenix, liveview]
 ---
 
-Like most developers, I have **lots** of side projects, but there's one in particular that always lures me back in from time to time. This project is an attempt to revive a genre of games that was very popular in the early 2000s called PBBG (Persistent Browser Based Game).
+Like most developers, I have **lots** of side projects, but there's one in particular that always lures me back in from time to time. This project is an attempt to revive a genre of games that was very popular in the early 2000s called PBBG (Persistent Browser Based Game). If you are not familiar with this kind of game, a PBBG is essentially a game that satisfies the following two criteria:
 
 <!-- more -->
-
-If you are not familiar with this kind of game, a PBBG is essentially a game that satisfies the following two criteria:
 
 - It's browser-based meaning that the game is played over the internet using only a web browser
 - It's persistent meaning that progress in the game is achieved over multiple play sessions
 
 Because of its browser-based nature, most games in this category are simply web apps where you perform a couple of actions on the client, and the server simulates how those actions affect the game world and the other players in it. A while back I thought about getting some inspiration from those games and giving it a new spin, and that's why I want to share how I created a [battle system](https://finalfantasy.fandom.com/wiki/Battle_system) using Elixir and LiveView that emulates the basis for turn-based games like Final Fantasy.
 
-## Actors
+# Actors
 
 The first step is to create a way to represent the entities we can interact with during battle, for this purpose, we'll be creating an `%Actor{}` struct that will hold the necessary information we need. Actors have many properties, but the basic ones are: `hp` and `cp`, the first one defines the actor's Health Points (how long it lasts in combat), and the second one is the actor's Charging Points (how fast it can act in battle). Additionally, the `Actor` module will also contain some helper functions to help us retrieve details about those actors. Here's how some of them work:
 
@@ -25,7 +23,7 @@ The first step is to create a way to represent the entities we can interact with
 - `Actor.tired?/1`: Whether or not the actor is completely depleted of its <abbr title="Charging Points">CP</abbr> resource and can't act in the turn.
 - `Actor.allies?/1`: Whether two actors are in the same party or not. This allows us to properly select targets for actions.
 
-## Battle state
+# Battle state
 
 Another thing we need is a data structure to track the state of the battle itself, things like how many turns have passed, whose turn is it, how long a turn takes and so on. We are going to create another struct for this called `%State{}`.
 
@@ -369,7 +367,7 @@ defmodule State do
 end
 ```
 
-## Running the simulation
+# Running the simulation
 
 Now that we have a good representation of the internal state, we are going to create the engine that is going to make everything come to life. For this part, we'll be using a [GenServer](https://hexdocs.pm/elixir/GenServer.html). The idea here is to implement a turn-based [CTB](https://finalfantasy.fandom.com/wiki/Charge_Time#Final_Fantasy_Tactics) battle system. Being turn-based requires us to process things in a very specific order. Here's the general flow of the simulation:
 
@@ -428,7 +426,7 @@ defp notify(message) do
 end
 ```
 
-## Displaying information
+# Displaying information
 
 Since we have the simulation state running in the background, it's just a matter of capturing the available information using a LiveView. We start by finding an existing battle and then we proceed to get its current state using `Battler.fetch_state(battler_id)`. Finally, when the WebSocket connection has been established, we call `Battler.subscribe()` to receive further state changes:
 
