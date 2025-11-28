@@ -4,20 +4,23 @@
     "assets": "concurrently npm:build:* -g",
     "dev:js": "esbuild ./js/main.js --bundle --sourcemap --outfile=./static/js/main.js --watch",
     "dev:css": "npx tailwindcss -i ./css/main.css -o ./static/css/main.css --watch",
-    "dev:zola": "zola serve",
+    "dev:zola": "npm run clean:zola && zola serve",
     "build:js": "esbuild ./js/main.js --bundle --outfile=./static/js/main.js --minify",
-    "build:css": "npx tailwindcss -i ./css/main.css -o ./static/css/main.css --minify"
+    "build:css": "npx tailwindcss -i ./css/main.css -o ./static/css/main.css --minify",
+    "build:zola": "npm run clean:zola && zola build",
+    "clean:zola": "rm -rf public .zola-cache"
   },
   "devDependencies": {
-    "@iconify-json/tabler": "^1.1.119",
-    "@iconify/tailwind": "^1.1.2",
-    "@tailwindcss/typography": "^0.5.14",
-    "concurrently": "^8.2.2",
-    "esbuild": "0.23.0",
-    "tailwindcss": "^3.4.9"
+    "@iconify-json/tabler": "^1.2.23",
+    "@iconify/tailwind4": "^1.2.0",
+    "@tailwindcss/cli": "^4.1.17",
+    "@tailwindcss/typography": "^0.5.19",
+    "concurrently": "^9.2.1",
+    "esbuild": "0.27.0",
+    "tailwindcss": "^4.1.17"
   },
   "dependencies": {
     "scroll-progress-indicator": "^1.0.1",
-    "unpoly": "^3.8.0"
+    "unpoly": "^3.12.0"
   }
 }
